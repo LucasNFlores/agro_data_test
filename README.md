@@ -13,9 +13,9 @@ En el .env configurar el puerto al que escuchara la aplicacion
 - ```uvicorn main:app --reload```
 
 ## Pagina web de acceso
-https://agro-data-test-dev-fpea.4.us-1.fl0.io/
+https://agro-test.3.us-1.fl0.io
 
 ## EndPoints disponibles
 Cambiar estacion_id por la estacion elegida de la cual extraer los ultimos datos disponible de la misma:
 
-https://agro-data-test-dev-fpea.4.us-1.fl0.io//api/json/get_data/{estacion_id}
+https://agro-test.3.us-1.fl0.io/api/json/get_data/{estacion_id}
