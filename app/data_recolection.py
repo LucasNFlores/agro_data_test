@@ -1,3 +1,5 @@
+import requests
+from bs4 import BeautifulSoup
 import re
 
 def ult_reporte_dato(soup, name):
@@ -135,7 +137,7 @@ def label_display_unit(soup, name):
     except:
         return print(f"Error en conseguir el dato {name}") """
 
-def dir_viento_dato(soup, name):
+""" def dir_viento_dato(soup, name):
   try:
     label = soup.find("div", class_="agro-label", string=name)
 
@@ -164,7 +166,40 @@ def dir_viento_dato(soup, name):
 
   except Exception as e:
     print(f"Error inesperado: {e}")
-    return None
+    return None """
+def dir_viento_dato(soup, name):
+    table = soup.find(id="table-items")
+
+    print("sdasd")
+
+    for row in table.find_all("tr"):
+        th_text = row.find("th").text
+        if th_text == "Dirección":
+            fila = row
+            break
+
+    ultimo_td = fila.find_all("td")[-1]
+
+    content = ultimo_td.text
+
+    print(obtener_numero(content))
+    return obtener_numero(content)
+            
+
+
+
+def obtener_numero(cadena):
+    match = re.search(r"[0-9.]+", cadena)  # Find numbers using regex
+    if match:
+         new_dict = {
+   
+        "Dirección": float(match.group()),
+            }
+    return new_dict
+    """ else:
+        return None """
+
+
 
 
 def prueba_data(estacion_id):
