@@ -1,4 +1,4 @@
-import mysql.connector
+""" import mysql.connector """
 import json
 import urllib
 import requests
@@ -26,7 +26,7 @@ async def get_json(estacion_id):
     }
     # funcion base de datos
     
-    enviar_datos_bd(estacion_id, data)
+    """ enviar_datos_bd(estacion_id, data) """
     
     print(data)
     # Devolver la respuesta como JSON
@@ -67,7 +67,7 @@ mydb.commit()
 mycursor.close()
 mydb.close() """
 
-def enviar_datos_bd(estacion_id, data):
+""" def enviar_datos_bd(estacion_id, data):
   print("ingreso a la funcion")
 
   # Convertir los datos a JSON (asumiendo que data ya es un diccionario)
@@ -80,7 +80,7 @@ def enviar_datos_bd(estacion_id, data):
   # Preparar la solicitud POST
   headers = {'Content-type': 'application/json'}
   print("header")
-  """ payload = {'data': json_data, 'estacion_id': estacion_id} """
+  payload = {'data': json_data, 'estacion_id': estacion_id}
   payload = json_data
   print("payload")
 
@@ -96,4 +96,4 @@ def enviar_datos_bd(estacion_id, data):
       print(f"Error al enviar datos: {response.status_code} - {response.text}")
   except Exception as e:
     print("no try")
-    print(f"Error al enviar datos: {e}")
+    print(f"Error al enviar datos: {e}") """
