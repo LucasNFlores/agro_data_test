@@ -1,3 +1,5 @@
+import re
+
 def ult_reporte_dato(soup, name):
     try:
         label = soup.find("div", class_="agro-label")
@@ -34,10 +36,11 @@ def label_con_clase_agro_unit_display(soup, name):
             "span", class_="agro-unit-display")
 
         new_dict = {
-            "nombre": label.string,
-            "data": data_display.string,
-            "unit_display": unit_display.string,
-        }
+    
+        label.string: data_display.string,
+        "unit_display": unit_display.string
+    
+}
         print(new_dict)
         return new_dict
     except:
@@ -55,10 +58,11 @@ def label_display_unit(soup, name):
             "span", class_="agro-display")
 
         new_dict = {
-            "nombre": label.string,
-            "data": data_display.string,
-            "unit_display": unit_display.string,
-        }
+   
+        label.string: data_display.string,
+        "unit_display": unit_display.string
+    
+}
         return new_dict
     except:
         return print(f"Error en conseguir el dato {name}")
@@ -66,9 +70,55 @@ def label_display_unit(soup, name):
 # Funcion para crear un diccionario de los datos de "Dir. Viento"
 
 
-def dir_viento_dato(soup, name):
-
+""" def dir_viento_dato(soup, name):
     try:
+        label = soup.find("div", class_="agro-label", string=name)
+        labels = label.find_next_sibling("span", class_="agro-display")
+        print(soup.find("div", class_="agro-label", string=name))
+        print(label.find_next_sibling("span", class_="agro-display"))
+        print(labels.find_next_sibling("span", class_="agro-display"))
+        
+        if not label:
+            print(f"Etiqueta con el nombre '{name}' no encontrada.")
+            return None
+
+        # Función para buscar el elemento `span` anidado con la clase "agro-display":
+        def find_nested_span(element, class_):
+            print("ingreso a la funcion")
+            for child in element.find_all("span", class_=class_):
+                print("ingreso al for")
+                if child.text:  # Verifica si contiene texto
+                    print("texto enconctrado")
+                    return child
+                else:
+                    nested_span = find_nested_span(child, class_)
+                    if nested_span:
+                        print("span encontrado")
+                        print(nested_span)
+                        return nested_span
+            return None
+
+        data_display = find_nested_span(labels, "agro-display")
+        
+
+        if not data_display:
+            print(f"Datos para '{name}' no encontrados.")
+            return None
+
+        new_dict = {
+            "nombre": label.string,
+            "data": data_display.string.strip(),
+            "unit_display": "",
+        }
+
+        print(new_dict)
+        return new_dict
+
+    except Exception as e:
+        print(f"Error inesperado: {e}")
+        return None  # Indica error """
+
+""" try:
         label = soup.find("div", class_="agro-label", string=name)
         data_display = label.find_next_sibling("span", class_="agro-display")
         data_display = label.find("span", class_="agro-display")
@@ -83,7 +133,38 @@ def dir_viento_dato(soup, name):
 
         return new_dict
     except:
-        return print(f"Error en conseguir el dato {name}")
+        return print(f"Error en conseguir el dato {name}") """
+
+def dir_viento_dato(soup, name):
+  try:
+    label = soup.find("div", class_="agro-label", string=name)
+
+    if not label:
+      print(f"Etiqueta con el nombre '{name}' no encontrada.")
+      return None
+
+    # Search for next sibling containing wind direction data (assuming it's not in a span)
+    next_sibling = label.find_next_sibling()
+    if not next_sibling:
+      print(f"Datos para '{name}' no encontrados.")
+      return None
+
+    # Extract wind direction (assuming it's the first sibling's text)
+    wind_direction = next_sibling.text.strip()
+
+    # Create the dictionary with extracted data
+    new_dict = {
+      "nombre": label.string,
+      "data": wind_direction,
+      "unit_display": "",  # Assuming unit is not provided in this case
+    }
+
+    print(new_dict)
+    return new_dict
+
+  except Exception as e:
+    print(f"Error inesperado: {e}")
+    return None
 
 
 def prueba_data(estacion_id):
@@ -102,7 +183,7 @@ def prueba_data(estacion_id):
         "Sens. Térmica", "Temperatura", "Punto de Rocío"]
     datos_con_clase_agro_unit_display = [
         "Humedad", "Ráfagas", "Vel. Viento", "Presión Atm.", "Precipitaciones"]
-    dato_direccion_viento = ["Dir. Viento"]
+    dato_direccion_viento = ["Dirección"]
 
     dictionaries = []
 
@@ -124,5 +205,7 @@ def prueba_data(estacion_id):
     json_try = json.dumps(dictionaries, indent=4)
 
     json_try = json_try.strip("\n")
+
+    
 
     return dictionaries
